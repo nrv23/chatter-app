@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import {  Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { UserRepository } from './user.repository';
@@ -44,7 +44,22 @@ export class UsersService {
     return this.userRepo.findOneAndDelete({_id})
   }
 
+  async verifiyUser(email: string, password: string) {
+
+    const user = await this.userRepo.findOne({email});
+    const isMatched = this.comparePass(password, user.password);
+
+    if(!isMatched) throw new UnauthorizedException("Invalid Credentials");
+
+
+    return user;
+  }
+
   private async hashPass(pass: string, salt: number): Promise<string> {
     return await bcrypt.hash(pass, salt);
+  }
+
+  private async comparePass(pass: string, hash: string) {
+    return bcrypt.compare(pass, hash);
   }
 }

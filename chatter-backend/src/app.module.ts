@@ -9,6 +9,7 @@ import {  ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { UsersModule } from './users/users.module';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 //import { LoggerModule } from 'nestjs-pino';
+import { AuthModule } from './auth/auth.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -26,7 +27,8 @@ import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin
       ]
     }),
     DatabaseModule,
-    UsersModule, // se crea un modulo para conectar con la bd y se importa en el app.module para ejecutar la conexion con la bd
+    UsersModule,
+    AuthModule, // se crea un modulo para conectar con la bd y se importa en el app.module para ejecutar la conexion con la bd
     /*LoggerModule.forRoot({
       pinoHttp: {
         transport: {
