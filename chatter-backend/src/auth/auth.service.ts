@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '../../../chatter-ui/src/models/User';
 import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { TokenPayload } from './token-payload.interface';
 import { JwtService } from '@nestjs/jwt';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -22,7 +22,7 @@ export class AuthService {
         );
 
         const tokenPayload : TokenPayload = {
-            _id: user._id,
+            _id: user._id.toHexString(),
             email: user.email
         }
 

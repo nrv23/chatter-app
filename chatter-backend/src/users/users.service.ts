@@ -47,10 +47,9 @@ export class UsersService {
   async verifiyUser(email: string, password: string) {
 
     const user = await this.userRepo.findOne({email});
-    const isMatched = this.comparePass(password, user.password);
+    const isMatched = await this.comparePass(password, user.password);
 
     if(!isMatched) throw new UnauthorizedException("Invalid Credentials");
-
 
     return user;
   }
@@ -60,6 +59,6 @@ export class UsersService {
   }
 
   private async comparePass(pass: string, hash: string) {
-    return bcrypt.compare(pass, hash);
+    return await bcrypt.compare(pass, hash);
   }
 }

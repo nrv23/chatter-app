@@ -4,7 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 //import { Logger } from 'nestjs-pino';
-
+import * as cookieParser from 'cookie-parser';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule /*, { bufferLogs: true }*/);
   app.useGlobalPipes(
@@ -24,7 +24,7 @@ async function bootstrap() {
 
   app.enableCors(corsOptions);
   // app.useLogger(app.get(Logger))
-
+  app.use(cookieParser())
   const configService = app.get(ConfigService); // configurar el puerto en el env
   await app.listen(configService.getOrThrow("PORT"));
 
