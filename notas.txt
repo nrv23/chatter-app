@@ -1,0 +1,2 @@
+En nest js para generar guards con estrategias se deben crear las estrategias y devolver y validar valores en la funcion valide, 
+en el guard se usa una estrategia para validar la sesion y puede ser de difentes tipos http, graphql y demás
