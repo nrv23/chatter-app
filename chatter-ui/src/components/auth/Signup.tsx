@@ -3,10 +3,12 @@ import { Link } from "react-router-dom";
 import { Link as MUILink } from "@mui/material";
 import Auth from "./Auth";
 import { useCreateUser } from "../../hooks/useCreateUser";
+import { useState } from "react";
 
 const Signup = () => {
 
   const [createUser] = useCreateUser();
+  const [error, setError] = useState("")
   return (
     <Auth submitLabel="Signup" onSubmit={async ({email, password}) => {
       try {
@@ -19,7 +21,8 @@ const Signup = () => {
           }
         })
       } catch (error) {
-        console.log({error})
+        console.log({error});
+        throw error;
       }
     }}>
       <Link to={"/login"} style={{ alignSelf: "center" }}>
