@@ -10,7 +10,13 @@ const Login = () => {
 
   return (
     <>
-      <Auth submitLabel="Login" onSubmit={async (request) => {await login(request)}} error={error? "Invalid Credentials" : ""}>
+      <Auth submitLabel="Login" onSubmit={async (request) => {
+        try {
+          await login(request);
+        } catch (error) {
+          console.log({error});
+        }
+      }} error={error? "Invalid Credentials" : ""}>
         <Link to={"/signup"} style={{ alignSelf: "center" }}>
           <MUILink>Signup</MUILink>
         </Link>

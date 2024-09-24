@@ -1,4 +1,4 @@
-import {  Injectable, UnauthorizedException } from '@nestjs/common';
+import {  Injectable, UnauthorizedException, UnprocessableEntityException } from '@nestjs/common';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { UserRepository } from './user.repository';
@@ -15,10 +15,16 @@ export class UsersService {
   }
 
   async create(createUserInput: CreateUserInput) {
-    return this.userRepo.create({
-      ...createUserInput,
-      password: await this.hashPass(createUserInput.password, 10)
-    });
+    try {
+      return await this.userRepo.create({
+        ...createUserInput,
+        password: await this.hashPass(createUserInput.password, 10)
+      });
+    } catch (error) {
+      if(error.message.includes('E11000')) {
+        throw new UnprocessableEntityException("Account is already exists");
+      }
+    }
   }
 
   async findAll() {

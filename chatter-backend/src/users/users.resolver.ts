@@ -5,9 +5,13 @@ import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { UseGuards } from '@nestjs/common';
 import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
+import { CurrentUser } from '../auth/strategies/current-user.decorator';
+//import { UseGuards } from '@nestjs/common';
+//import { GqlAuthGuard } from '../auth/guards/gql-auth.guard';
+import { TokenPayload } from '../auth/token-payload.interface';
 
 @Resolver(() => User)
-@UseGuards(GqlAuthGuard)
+//@UseGuards(GqlAuthGuard)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
@@ -35,5 +39,13 @@ export class UsersResolver {
   @Mutation(() => User)
   removeUser(@Args('id', { type: () => ID }) id: string) {
     return this.usersService.remove(id);
+  }
+
+  @UseGuards(GqlAuthGuard)
+  @Query(() => User, { name: "me"})
+  getMe(
+    @CurrentUser() user: TokenPayload
+  ) {
+    return user;
   }
 }

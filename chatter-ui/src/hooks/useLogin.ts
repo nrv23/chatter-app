@@ -8,7 +8,7 @@ interface LoginRequest {
 }
 
 const useLogin = () => {
-    const [error, setError] = useState<boolean>(false);
+    const [error, setError] = useState<string>("");
 
     const login = async (request: LoginRequest) => {
         const res = await fetch(`${API_BACKEND}/auth/login`,{
@@ -19,9 +19,16 @@ const useLogin = () => {
             }
         })
         console.log(res)
-        if(!res.ok) setError(true);
+        if(!res.ok) {
+            setError(
+                res.status === 401 
+                    ? 'Invalid credentials'
+                    : 'Unkown error ocurred'
+            );
+        }
         else {
             // borrar el caché de graphql y re cargar los queries activos
+            setError("");
             await client.refetchQueries({include: 'active'});
         }
     }
