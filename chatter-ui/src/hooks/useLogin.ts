@@ -1,39 +1,32 @@
-import { useState } from "react";
-import { API_BACKEND } from "../constants/urls";
-import client from "../constants/apollo-client";
 
-interface LoginRequest {
-    email: string;
-    password: string;
-}
 
-const useLogin = () => {
-    const [error, setError] = useState<string>("");
+import { gql, useMutation } from "@apollo/client";
+import { User } from "../models/User";
 
-    const login = async (request: LoginRequest) => {
-        const res = await fetch(`${API_BACKEND}/auth/login`,{
-            method: "POST",
-            body: JSON.stringify(request),
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-        console.log(res)
-        if(!res.ok) {
-            setError(
-                res.status === 401 
-                    ? 'Invalid credentials'
-                    : 'Unkown error ocurred'
-            );
-        }
-        else {
-            // borrar el caché de graphql y re cargar los queries activos
-            setError("");
-            await client.refetchQueries({include: 'active'});
-        }
+interface LoginInput {
+    loginInput: {
+        email: string;
+        password: string;
     }
 
-    return { login, error };
 }
+
+const LOGIN = gql`
+
+mutation Login($loginInput: LoginInput!) {
+  login(loginInput: $loginInput) {
+    user {
+      _id
+      email
+    }
+  }
+}
+`
+
+const useLogin = () => {
+    //const [errorMessage, setErrorError] = useState<string>("");    
+    return useMutation<User, LoginInput>(LOGIN);
+};
+
 
 export { useLogin }

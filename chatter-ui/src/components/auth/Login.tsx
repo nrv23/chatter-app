@@ -3,18 +3,29 @@ import { Link } from "react-router-dom";
 import { Link as MUILink } from "@mui/material";
 import Auth from "./Auth";
 import { useLogin } from "../../hooks/useLogin";
+import { extractErrorMessage } from "../../utils/error";
+import { useState } from "react";
 
 const Login = () => {
 
-  const { login, error } = useLogin()
-
+  const [login]= useLogin();
+  const [error, setError] = useState("");
   return (
     <>
-      <Auth submitLabel="Login" onSubmit={async (request) => {
+      <Auth submitLabel="Login" onSubmit={async ({email, password}) => {
         try {
-          await login(request);
+          await login({
+            variables: {
+              loginInput: {
+                email, password
+              }
+            }
+          });
+          setError("");
         } catch (error) {
-          console.log({error});
+          console.log({ error });
+          const errorMessage = extractErrorMessage(error);
+          if (errorMessage) setError(errorMessage);
         }
       }} error={error? "Invalid Credentials" : ""}>
         <Link to={"/signup"} style={{ alignSelf: "center" }}>

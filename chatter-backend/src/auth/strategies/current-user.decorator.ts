@@ -4,11 +4,14 @@ import { GqlContextType, GqlExecutionContext } from "@nestjs/graphql";
 
 const getCurrentUserByContext = (context: ExecutionContext) : User => {
     
+    let user: User;
     if(context.getType() === "http") {
-        return context.switchToHttp().getRequest().user;
+        user = context.switchToHttp().getRequest().user;
     } else if(context.getType<GqlContextType>()=== "graphql") {
-        return GqlExecutionContext.create(context).getContext().req.user;
+        user = GqlExecutionContext.create(context).getContext().req.user;
     }
+    console.log({user})
+    return user;
 }
 
 export const CurrentUser = createParamDecorator(

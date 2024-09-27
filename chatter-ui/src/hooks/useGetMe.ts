@@ -12,7 +12,12 @@ query Me {
 `
 
 const useGetMe = () => {
-    return useQuery<{me: User}>(GET_ME)
+  return useQuery<{ me: User }>(GET_ME, {
+    fetchPolicy: 'no-cache', // Evitar problemas de caché
+    context: {
+      credentials: 'include', // Asegúrate de enviar las cookies
+    }
+  });
 }
 
 export { useGetMe };

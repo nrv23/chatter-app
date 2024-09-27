@@ -16,7 +16,7 @@ async function bootstrap() {
 
 
   const corsOptions: CorsOptions = {
-    origin: ['http://localhost:3000', 'https://tu-dominio.com'], // Define los dominios permitidos
+    origin: ['http://localhost:3000'], // Define los dominios permitidos
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Define los métodos permitidos
     allowedHeaders: 'Content-Type, Accept', // Define los encabezados permitidos
     credentials: true, // Permitir el envío de cookies en las solicitudes

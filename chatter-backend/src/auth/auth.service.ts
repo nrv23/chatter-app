@@ -1,35 +1,37 @@
 import { Injectable } from '@nestjs/common';
-import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { TokenPayload } from './token-payload.interface';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '../users/entities/user.entity';
+import { LoginInput } from './dtos/input/login.input';
+import { UsersService } from '../users/users.service';
+import { AuthResponseType } from './dtos/types/AuthResponseType ';
 
 @Injectable()
 export class AuthService {
 
     constructor(
         private readonly configService: ConfigService,
-        private readonly jwtService: JwtService
+        private readonly jwtService: JwtService,
+        private readonly userService: UsersService
     ) {
 
     }
 
-    async login(user: User, res: Response) {
-        const expires = new Date();
-        expires.setSeconds(
-            expires.getSeconds() + this.configService.getOrThrow("TOKEN_EXPIRES_IN")
-        );
+    async login({ email, password }: LoginInput) {
 
-        const tokenPayload : TokenPayload = {
+        const user = await this.userService.verifiyUser(email, password);
+        const tokenPayload: TokenPayload = {
             _id: user._id.toHexString(),
             email: user.email
         }
 
+        const expires = new Date();
+        expires.setSeconds(
+            expires.getSeconds() + this.configService.getOrThrow("TOKEN_EXPIRES_IN")
+        );
         const token = this.jwtService.sign(tokenPayload);
-        res.cookie('Authentication',token,{
-            httpOnly: true,
-            expires
-        })
+        const responseUser =  new AuthResponseType();
+        responseUser.user = user;
+        return { token, expires, user: responseUser };
     }
 }

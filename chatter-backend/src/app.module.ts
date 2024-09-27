@@ -24,7 +24,8 @@ import { AuthModule } from './auth/auth.module';
       playground: false,
       plugins: [
         ApolloServerPluginLandingPageLocalDefault()
-      ]
+      ],
+      context: ({ req, res }) => ({ req, res }), 
     }),
     DatabaseModule,
     UsersModule,
