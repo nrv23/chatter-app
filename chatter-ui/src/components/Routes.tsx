@@ -1,9 +1,9 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import React from "react";
+import { Route, Routes } from "react-router-dom";
 import Login from "./auth/Login";
 import Signup from "./auth/Signup";
 import { Home } from "./home/home";
-import ProtectedRoute from '../utils/protectedRoute';
+import ProtectedRoute from "../utils/protectedRoute";
 
 // routes.js
 
@@ -15,10 +15,14 @@ const routes = (
     <Route path="/" element={<Signup />} />
 
     {/* Rutas protegidas */}
-    <Route element={<ProtectedRoute />}>
-      <Route path="/" element={<Home />} />
-      {/* Agrega más rutas protegidas aquí */}
-    </Route>
+    <Route
+      path="/" // Cambia esto por la ruta que deseas proteger
+      element={
+        <ProtectedRoute>
+          <Home/>
+        </ProtectedRoute>
+      }
+    />
   </Routes>
 );
 

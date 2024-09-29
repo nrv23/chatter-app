@@ -6,8 +6,6 @@ const formatErrorMessage = (errorMessage: string) => {
 }
 
 const extractErrorMessage = (err: any) => {
-
-    console.log(err);
     const errorMessage = err.graphQLErrors[0]?.extensions?.originalError?.message;
     if(!errorMessage) return ' ';
 
