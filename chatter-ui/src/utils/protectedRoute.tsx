@@ -14,7 +14,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     const { loading, error, data } = useQuery<{ me: any }, any>(GET_ME, { // Ajusta los tipos según tu implementación
         fetchPolicy: "network-only", // Asegúrate de no usar caché para esta verificación
     });
-
+    console.log({loading, error, data})
     // Mientras se carga la consulta, puedes mostrar un spinner o mensaje
     if (loading) return <p>Loading...</p>;
 

@@ -12,7 +12,7 @@ const routes = (
   <Routes>
     {/* Rutas públicas */}
     <Route path="/login" element={<Login />} />
-    <Route path="/" element={<Signup />} />
+    <Route path="/signup" element={<Signup />} />
 
     {/* Rutas protegidas */}
     <Route
