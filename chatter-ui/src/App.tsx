@@ -4,11 +4,11 @@ import {
   CssBaseline,
   ThemeProvider
 } from "@mui/material";
-import { RouterProvider } from "react-router-dom";
-import router from "./components/Routes";
+
 import { ApolloProvider } from "@apollo/client";
 import client from "./constants/apollo-client";
-import { Guard } from "./components/auth/Guard";
+import routes from "./components/Routes";
+import { BrowserRouter as Router } from 'react-router-dom';
 
 const darkTheme = createTheme({
   palette: {
@@ -22,9 +22,9 @@ function App() {
       <ThemeProvider theme={darkTheme}>
         <CssBaseline>
           <Container>
-            <Guard>
-              <RouterProvider router={router} />
-            </Guard>
+            <Router>
+            {routes}
+            </Router>
           </Container>
         </CssBaseline>
       </ThemeProvider>

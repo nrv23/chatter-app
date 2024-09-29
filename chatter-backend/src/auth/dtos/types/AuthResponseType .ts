@@ -8,5 +8,7 @@ import { User } from "../../../users/entities/user.entity";
 // en los querys y resolvers el tipo de dato que va devolver 
 export class AuthResponseType {
     @Field(() => User)
-    user: User
+    user: User;
+    @Field(() => String, { nullable: true})
+    token?: string;
 }

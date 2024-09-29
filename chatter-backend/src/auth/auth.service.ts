@@ -31,7 +31,9 @@ export class AuthService {
         );
         const token = this.jwtService.sign(tokenPayload);
         const responseUser =  new AuthResponseType();
+        delete user.password;
         responseUser.user = user;
-        return { token, expires, user: responseUser };
+        responseUser.token = token;
+        return responseUser;
     }
 }

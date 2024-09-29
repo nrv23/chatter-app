@@ -1,23 +1,34 @@
-import { useQuery, gql } from '@apollo/client';
-import { User } from '../models/User';
+import { GET_ME } from "../gql/auth/getMe";
 
-const GET_ME = gql`
-
-query Me {
-  me {
-    _id
-    email
-  }
-}
-`
+import { useEffect, useState } from 'react';
+import { useQuery } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 
 const useGetMe = () => {
-  return useQuery<{ me: User }>(GET_ME, {
-    fetchPolicy: 'no-cache', // Evitar problemas de caché
-    context: {
-      credentials: 'include', // Asegúrate de enviar las cookies
-    }
-  });
-}
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const navigate = useNavigate();
 
-export { useGetMe };
+  // Llamada a la query getMe para verificar la autenticación
+  const { data, loading, error } = useQuery(GET_ME, {
+    onError: () => {
+      // Si hay un error en la consulta, significa que no está autenticado o el token es inválido
+      setIsAuthenticated(false);
+      navigate('/login');
+    },
+  });
+
+  useEffect(() => {
+    if(error)   setIsAuthenticated(false);
+    
+    if (!loading && data) {
+      // Si obtenemos datos, significa que el usuario está autenticado
+      setIsAuthenticated(true);
+    }
+
+    
+  }, [data, loading, error]);
+
+  return { isAuthenticated, loading };
+};
+
+export default useGetMe;
