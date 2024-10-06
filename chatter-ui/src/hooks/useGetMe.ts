@@ -1,37 +1,35 @@
-import { GET_ME } from "../gql/auth/getMe";
-
 import { useEffect, useState } from 'react';
-import { useQuery } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
+import { GET_ME } from '../gql/auth/getMe';
+import { useQuery } from '@apollo/client';
 import { LocalStorageUtil } from "../utils/localstorage";
-
 const useGetMe = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
+  const token = new LocalStorageUtil().getItem("token");
 
-  // Llamada a la query getMe para verificar la autenticación
-  const { data, loading, error } = useQuery(GET_ME);
+  const { data, loading, error } = useQuery(GET_ME, {
+    skip: !token,
+    fetchPolicy: "network-only" 
+  });
 
   useEffect(() => {
-    console.log({data, loading, error})
-    if (!loading && data) {
+    if (loading) return; // No hacer nada mientras se está cargando
+
+    if (data) {
       // Si obtenemos datos, significa que el usuario está autenticado
       setIsAuthenticated(true);
-    } else {
-
+    } else if (error) {
       if (error?.graphQLErrors[0]?.extensions?.code === "UNAUTHORIZED") {
-        // Redirigir al login si hay un error de autorización
-        new LocalStorageUtil().removeItem("token"); // Opcionalmente limpiar el token
+        new LocalStorageUtil().removeItem("token");
         setIsAuthenticated(false);
-        navigate("/login"); // Usar navigate de react-router-dom
-       
+        navigate("/login"); // Redirige solo si hay un error
       }
-      throw error;
     }
   }, [data, loading, error, navigate]);
-
 
   return { isAuthenticated, loading };
 };
 
 export default useGetMe;
+

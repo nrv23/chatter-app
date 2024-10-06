@@ -12,7 +12,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  useAuthRedirect();
+  useAuthRedirect(!new LocalStorageUtil().getItem("toke"));
 
   return (
     <>

@@ -5,12 +5,13 @@ import { useCreateUser } from "../../hooks/useCreateUser";
 import { useState } from "react";
 import { extractErrorMessage } from "../../utils/error";
 import useAuthRedirect from "../../hooks/useAuthRedirect";
+import { LocalStorageUtil } from "../../utils/localstorage";
 
 const Signup = () => {
   const [createUser] = useCreateUser();
   const [error, setError] = useState("");
 
-  useAuthRedirect();
+  useAuthRedirect(!new LocalStorageUtil().getItem("toke"));
   return (
     <Auth
       submitLabel="Signup"
