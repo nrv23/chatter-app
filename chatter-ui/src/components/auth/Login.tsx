@@ -3,13 +3,17 @@ import { Link as MUILink } from "@mui/material";
 import Auth from "./Auth";
 import { useLogin } from "../../hooks/useLogin";
 import { extractErrorMessage } from "../../utils/error";
-import { useState } from "react";
+import {  useState } from "react";
 import { LocalStorageUtil } from "../../utils/localstorage";
+import useAuthRedirect from "../../hooks/useAuthRedirect";
 
 const Login = () => {
   const [login] = useLogin();
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  useAuthRedirect();
+
   return (
     <>
       <Auth

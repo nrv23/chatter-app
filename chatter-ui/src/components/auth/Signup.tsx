@@ -4,10 +4,13 @@ import Auth from "./Auth";
 import { useCreateUser } from "../../hooks/useCreateUser";
 import { useState } from "react";
 import { extractErrorMessage } from "../../utils/error";
+import useAuthRedirect from "../../hooks/useAuthRedirect";
 
 const Signup = () => {
   const [createUser] = useCreateUser();
   const [error, setError] = useState("");
+
+  useAuthRedirect();
   return (
     <Auth
       submitLabel="Signup"
