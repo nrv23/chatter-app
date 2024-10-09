@@ -6,6 +6,7 @@ import { useState } from "react";
 import { extractErrorMessage } from "../../utils/error";
 import useAuthRedirect from "../../hooks/useAuthRedirect";
 import { LocalStorageUtil } from "../../utils/localstorage";
+import { snackVar } from "../../constants/snack";
 
 const Signup = () => {
   const [createUser] = useCreateUser();
@@ -31,7 +32,13 @@ const Signup = () => {
         } catch (error) {
           console.log({ error });
           const errorMessage = extractErrorMessage(error);
-          if (errorMessage) setError(errorMessage);
+          if (errorMessage){
+             //setError(errorMessage)
+             snackVar({
+              message: errorMessage,
+              type: "error"
+            })
+          };
         }
       }}
     >

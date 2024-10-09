@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { GET_ME } from '../gql/auth/getMe';
 import { useQuery } from '@apollo/client';
 import { LocalStorageUtil } from "../utils/localstorage";
+import { authenticatedVar } from '../constants/authenticated';
+
 const useGetMe = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
@@ -19,6 +21,7 @@ const useGetMe = () => {
     if (data) {
       // Si obtenemos datos, significa que el usuario está autenticado
       setIsAuthenticated(true);
+      authenticatedVar(true);
     } else if (error) {
       if (error?.graphQLErrors[0]?.extensions?.code === "UNAUTHORIZED") {
         new LocalStorageUtil().removeItem("token");

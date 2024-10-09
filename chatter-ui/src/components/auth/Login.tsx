@@ -6,6 +6,8 @@ import { extractErrorMessage } from "../../utils/error";
 import {  useState } from "react";
 import { LocalStorageUtil } from "../../utils/localstorage";
 import useAuthRedirect from "../../hooks/useAuthRedirect";
+import { authenticatedVar } from "../../constants/authenticated";
+import { snackVar } from "../../constants/snack";
 
 const Login = () => {
   const [login] = useLogin();
@@ -32,11 +34,18 @@ const Login = () => {
             console.log(data);
             const storage = new LocalStorageUtil();
             storage.setItem("token", data?.login.token!);
+            authenticatedVar(true);
             navigate("/");
           } catch (error) {
             console.log({ error1: error });
             const errorMessage = extractErrorMessage(error);
-            if (errorMessage) setError(errorMessage);
+            if (errorMessage) {
+              //setError(errorMessage)
+              snackVar({
+                message: errorMessage,
+                type: "error"
+              })
+            };
           }
         }}
         error={error ? "Invalid Credentials" : ""}

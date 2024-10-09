@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GET_ME } from '../gql/auth/getMe';
 import { useQuery } from '@apollo/client';
+import { authenticatedVar } from '../constants/authenticated';
 
 const useAuthRedirect = (isAuthenticated: boolean) => {
     const navigate = useNavigate();
@@ -14,6 +15,7 @@ const useAuthRedirect = (isAuthenticated: boolean) => {
 
         if (data) {
             navigate('/');
+            authenticatedVar(true);
         } else if (error) {
             // Asegúrate de que solo redirija si el error es UNAUTHORIZED
             if (error?.graphQLErrors[0]?.extensions?.code === "UNAUTHORIZED") {

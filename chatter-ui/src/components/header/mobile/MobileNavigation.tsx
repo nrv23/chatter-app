@@ -1,9 +1,11 @@
 import { Box, IconButton, Menu, MenuItem, Typography } from "@mui/material"
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from "react";
+import { IPage } from "../../../interfaces/page.interface";
+import { useNavigate } from "react-router-dom";
 
 interface MobileNavigationProps {
-    pages: string[];
+    pages: IPage[];
 }
 
 const MobileNavigation = ({ pages}: MobileNavigationProps) =>  {
@@ -16,6 +18,8 @@ const MobileNavigation = ({ pages}: MobileNavigationProps) =>  {
     const handleCloseNavMenu = () => {
         setAnchorElNav(null);
       };
+
+      const navigate = useNavigate();
     
     return <>
          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -46,8 +50,11 @@ const MobileNavigation = ({ pages}: MobileNavigationProps) =>  {
               sx={{ display: { xs: 'block', md: 'none' } }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography sx={{ textAlign: 'center' }}>{page}</Typography>
+                <MenuItem key={page.title} onClick={() => {
+                  handleCloseNavMenu();
+                  navigate(page.path);
+                }}>
+                  <Typography sx={{ textAlign: 'center' }}>{page.title}</Typography>
                 </MenuItem>
               ))}
             </Menu>
