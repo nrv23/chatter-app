@@ -2,11 +2,22 @@ import List from "@mui/material/List";
 import { ChatListItem } from "./chat-list-item/ChatListItem";
 import { Divider, Stack } from "@mui/material";
 import { ChatListHeader } from "./chat-list-header/ChatListHeader";
+import { useState } from "react";
+import ChatListAdd from './chat-list-add/ChatListAdd';
 
 const ChatList = () => {
+
+  const[ chatListAddVisible, setChatListAddVisible ] = useState(false);
+
   return (
-    <Stack>
-      <ChatListHeader />
+    <>
+     <ChatListAdd open={chatListAddVisible} handleClose={() => {
+      setChatListAddVisible(false);
+     }} />
+      <Stack>
+      <ChatListHeader handleAddChat={() => {
+        setChatListAddVisible(true);
+      }} />
       <Divider/>
       <List
         sx={{
@@ -20,8 +31,21 @@ const ChatList = () => {
         <ChatListItem />
         <ChatListItem />
         <ChatListItem />
+        <ChatListItem />
+        <ChatListItem />
+        <ChatListItem />
+        <ChatListItem />
+        <ChatListItem />
+        <ChatListItem />
+        <ChatListItem />
+        <ChatListItem />
+        <ChatListItem />
+        <ChatListItem />
+        <ChatListItem />
+        <ChatListItem />
       </List>
     </Stack>
+    </>
   );
 };
 

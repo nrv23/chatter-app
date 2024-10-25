@@ -10,6 +10,7 @@ import { UsersModule } from './users/users.module';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 //import { LoggerModule } from 'nestjs-pino';
 import { AuthModule } from './auth/auth.module';
+import { ChatsModule } from './chats/chats.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -29,7 +30,8 @@ import { AuthModule } from './auth/auth.module';
     }),
     DatabaseModule,
     UsersModule,
-    AuthModule, // se crea un modulo para conectar con la bd y se importa en el app.module para ejecutar la conexion con la bd
+    AuthModule,
+    ChatsModule, // se crea un modulo para conectar con la bd y se importa en el app.module para ejecutar la conexion con la bd
     /*LoggerModule.forRoot({
       pinoHttp: {
         transport: {

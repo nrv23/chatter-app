@@ -14,7 +14,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  useAuthRedirect(!new LocalStorageUtil().getItem("toke"));
+  useAuthRedirect(!new LocalStorageUtil().getItem("token"));
 
   return (
     <>
