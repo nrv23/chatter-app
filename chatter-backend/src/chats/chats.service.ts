@@ -18,7 +18,7 @@ export class ChatsService {
   }
 
   async findAll() {
-    return `This action returns all chats`;
+    return this.chatRepository.find({});
   }
 
   async findOne(id: number) {
@@ -30,6 +30,6 @@ export class ChatsService {
   }
 
   async remove(id: number) {
-    return `This action removes a #${id} chat`;
+    return `This action removes a #${id} chat`; 
   }
 }

@@ -1,15 +1,8 @@
-import { gql, useMutation } from "@apollo/client";
-import { IAuthResponseType } from "../interfaces/AuthResponseType.interface";
+import { useMutation } from "@apollo/client";
+import { graphql } from "../gql";
 
-interface LoginInput {
-    loginInput: {
-        email: string;
-        password: string;
-    }
 
-}
-
-const LOGIN = gql`
+const loginDocument = graphql(`
   mutation Login($loginInput: LoginInput!) {
     login(loginInput: $loginInput) {
       token
@@ -19,11 +12,11 @@ const LOGIN = gql`
       }
     }
   }
-`
+`);
 
 const useLogin = () => {
     //const [errorMessage, setErrorError] = useState<string>("");    
-    return useMutation<IAuthResponseType, LoginInput>(LOGIN);
+    return useMutation(loginDocument);
 };
 
 
