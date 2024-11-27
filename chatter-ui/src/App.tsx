@@ -41,7 +41,7 @@ function App() {
                   <Grid2 size={{ xs: 6, md: 4 }}>
                     <ChatList />
                   </Grid2>
-                  <Grid2 size={{ xs: 6, md: 8 }}>
+                  <Grid2 size={{ xs: 4, md: 8 }}>
                     <Routes />
                   </Grid2>
                 </Grid2>

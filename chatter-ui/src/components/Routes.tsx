@@ -4,6 +4,7 @@ import Login from "./auth/Login";
 import Signup from "./auth/Signup";
 import { Home } from "./home/home";
 import ProtectedRoute from "../utils/protectedRoute";
+import Chat from "./chat/Chat";
 
 // routes.js
 
@@ -19,7 +20,16 @@ const routes = (
       path="/" // Cambia esto por la ruta que deseas proteger
       element={
         <ProtectedRoute>
-          <Home/>
+          <Home />
+        </ProtectedRoute>
+      }
+    />
+
+    <Route
+      path="/chats/:_id" // Cambia esto por la ruta que deseas proteger
+      element={
+        <ProtectedRoute>
+          <Chat />
         </ProtectedRoute>
       }
     />

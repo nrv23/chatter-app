@@ -31,7 +31,7 @@ const ChatList = () => {
         }}
       >
         {
-          data?.chats.map(({name}) => (<ChatListItem name={name} />))
+          data?.chats.map(ch => (<ChatListItem chat={ch} />))
         }
         
     

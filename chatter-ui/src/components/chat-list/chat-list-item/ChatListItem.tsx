@@ -4,22 +4,28 @@ import {
   Avatar,
   ListItemText,
   Typography,
-  Divider
+  Divider,
+  ListItemButton
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { Chat } from "../../../gql/graphql";
 
 interface ChatListItemProps {
-  name?: string | null;
+  chat: Chat
 }
 
-const ChatListItem = ({name}: ChatListItemProps) => {
+const ChatListItem = ({chat}: ChatListItemProps) => {
+
+  const navigate = useNavigate();
   return (
     <>
-      <ListItem alignItems="flex-start">
+      <ListItem alignItems="flex-start" disablePadding>
+        <ListItemButton onClick={() => navigate(`/chats/${chat._id}`)}>
         <ListItemAvatar>
           <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
         </ListItemAvatar>
         <ListItemText
-          primary={name}
+          primary={chat.name}
           secondary={
             <>
               <Typography
@@ -33,6 +39,7 @@ const ChatListItem = ({name}: ChatListItemProps) => {
             </>
           }
         />
+        </ListItemButton>
       </ListItem>
       <Divider variant="inset" component="li" />
     </>

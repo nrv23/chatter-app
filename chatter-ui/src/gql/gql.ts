@@ -17,6 +17,7 @@ const documents = {
     "\n    fragment  ChatFragment on Chat {\n        _id\n        userId\n        userIds\n        isPrivate\n        name\n    }\n    \n": types.ChatFragmentFragmentDoc,
     "\n\n    mutation CreateChat($createChatInput: CreateChatInput!)    {\n        createChat(createChatInput:$createChatInput) {\n            _id\n            userId\n            userIds\n            isPrivate\n            name\n        }\n    }\n": types.CreateChatDocument,
     "\n\nmutation CreateUser($createUserInput: CreateUserInput!) {\n  createUser(createUserInput: $createUserInput) {\n    _id\n    email\n  }\n}\n": types.CreateUserDocument,
+    "\n    query Chat($_id: String!) {\n        chat(_id: $_id) {\n            ...ChatFragment\n        }\n    }\n": types.ChatDocument,
     "\n    \n    query Chats {\n        chats {\n            ...ChatFragment\n        }\n    }    \n": types.ChatsDocument,
     "\n  mutation Login($loginInput: LoginInput!) {\n    login(loginInput: $loginInput) {\n      token\n      user {\n        _id\n        email\n      }\n    }\n  }\n": types.LoginDocument,
 };
@@ -47,6 +48,10 @@ export function graphql(source: "\n\n    mutation CreateChat($createChatInput: C
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n\nmutation CreateUser($createUserInput: CreateUserInput!) {\n  createUser(createUserInput: $createUserInput) {\n    _id\n    email\n  }\n}\n"): (typeof documents)["\n\nmutation CreateUser($createUserInput: CreateUserInput!) {\n  createUser(createUserInput: $createUserInput) {\n    _id\n    email\n  }\n}\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n    query Chat($_id: String!) {\n        chat(_id: $_id) {\n            ...ChatFragment\n        }\n    }\n"): (typeof documents)["\n    query Chat($_id: String!) {\n        chat(_id: $_id) {\n            ...ChatFragment\n        }\n    }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
